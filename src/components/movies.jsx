@@ -75,13 +75,6 @@ class Movies extends Component {
         </div>
         <div className="col">
           <p>you have {TotalCount} movies in the list</p>
-          <MoviesTable
-            movies={movies}
-            sortColumn={sortColumn}
-            onLike={this.handleLike}
-            onDelete={this.deleteHandler}
-            onSort={this.sortHandler}
-          />
 
           <Pagination
             itemsCount={TotalCount}
