@@ -7,8 +7,8 @@ class LoginForm extends Form {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
   schema = {
     username: Joi.string().email().required().label("Username"),
-    password: Joi.string().required().label("Password"),
-    name: Joi.string().min(5).required().label("Name"),
+    password: Joi.string().min(5).required().label("Password"),
+    name: Joi.string().required().label("Name"),
   };
 
   // username = React.createRef();

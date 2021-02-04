@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
 class MoviesDetails extends Component {
-  handleSave = ({ match, history }) => {
+  handleSave = () => {
     // Navigate to /products
     //this.props.history.push("/products");
-    this.props.history.replace("/Movies");
+    this.props.history.push("/Movies");
   };
 
   render() {
