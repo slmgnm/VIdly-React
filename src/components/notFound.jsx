@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import NavBar from "./common/navbar";
+
 
 class NotFound extends Component {
   render() {

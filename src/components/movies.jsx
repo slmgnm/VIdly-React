@@ -1,13 +1,26 @@
 import React, { Component } from "react";
-import { getMovies } from "../services/fakeMovieService";
-import ListGroup from "./common/listGroup";
-import MoviesTable from "./moviesTable";
-import Pagination from "../components/common/pagination";
-import { paginate } from "../../src/utils/paginate";
-import { getGenres } from "../services/fakeGenreService";
-import _ from "lodash";
 import { Link } from "react-router-dom";
+import MoviesTable from "./moviesTable";
+import ListGroup from "./common/listGroup";
+import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import SearchBox from "./common/searchBox";
+import _ from "lodash";
+import { toast } from "react-toastify";
+// import React, { Component } from "react";
+// import { deleteMovie, getMovies } from "../services/movieService";
+// import { toast } from "react-toastify";
+
+// import ListGroup from "./common/listGroup";
+// import MoviesTable from "./moviesTable";
+// import Pagination from "../components/common/pagination";
+// import { paginate } from "../../src/utils/paginate";
+// import { getGenres } from "../services/genreService";
+// import _ from "lodash";
+// import { Link } from "react-router-dom";
+// import SearchBox from "./common/searchBox";
 
 class Movies extends Component {
   state = {
@@ -20,9 +33,12 @@ class Movies extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount() {
-    const genres = [{ id: "", name: "All Movies" }, ...getGenres()];
-    this.setState({ movies: getMovies(), genres });
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...data];
+
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres });
   }
   GenreHandle = (genre) => {
     this.setState({ selectedGenre: genre, currentPage: 1, searchQuery: "" });
@@ -30,9 +46,19 @@ class Movies extends Component {
   HandleSearch = (query) => {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
-  deleteHandler = (movie) => {
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+  deleteHandler = async (movie) => {
+    const originalMovies = this.state.movies;
+    const movies = originalMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("This movie has already been deleted.");
+
+      this.setState({ movies: originalMovies });
+    }
   };
 
   handleLike = (movie) => {
