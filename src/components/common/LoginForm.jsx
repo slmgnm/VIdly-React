@@ -1,16 +1,13 @@
-import React, { Component } from "react";
-import Input from "./input";
+import React from "react";
 import Form from "./form";
 import Joi from "joi-browser";
-import { result } from "lodash";
+
 class LoginForm extends Form {
   state = { data: { username: "", password: "" }, errors: {} };
   schema = {
     username: Joi.string().required().label("Username"),
     password: Joi.string().required().label("Password"),
   };
-
-  // username = React.createRef();
 
   doSubmit = () => {
     console.log("submitted");
@@ -19,10 +16,10 @@ class LoginForm extends Form {
   render() {
     return (
       <div>
-        <h1>login</h1>
+        <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}
-          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("password", "Passowrd", "password")}
           {this.renderButton("Login")}
         </form>
       </div>

@@ -1,20 +1,29 @@
-import React, { Component } from "react";
-import Input from "./input";
+import React from "react";
+
 import Form from "./form";
 import Joi from "joi-browser";
-import { result } from "lodash";
+
+import * as userService from "../../services/userService";
 class LoginForm extends Form {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
   schema = {
     username: Joi.string().email().required().label("Username"),
-    password: Joi.string().min(5).required().label("Password"),
+    password: Joi.string().required().min(5).label("Password"),
     name: Joi.string().required().label("Name"),
   };
 
   // username = React.createRef();
 
-  doSubmit = () => {
-    console.log("submitted");
+  doSubmit = async () => {
+    try {
+      await userService.register(this.state.data);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {

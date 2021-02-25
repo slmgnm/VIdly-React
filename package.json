@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "core-js": "^3.9.0",
     "font-awesome": "^4.7.0",
     "joi-browser": "^13.4.0",
     "lodash": "^4.17.20",
@@ -43,5 +44,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }

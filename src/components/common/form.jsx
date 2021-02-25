@@ -9,8 +9,6 @@ class Form extends Component {
   validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    {
-    }
     if (!error) return null;
 
     const errors = {};
@@ -23,13 +21,15 @@ class Form extends Component {
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
+
     const errors = this.validate();
-    console.log(errors);
     this.setState({ errors: errors || {} });
+    if (errors) return;
+
     this.doSubmit();
-    // const username = this.username.current.value;
   };
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
@@ -39,40 +39,45 @@ class Form extends Component {
 
     const data = { ...this.state.data };
     data[input.name] = input.value;
+
     this.setState({ data, errors });
   };
 
-  renderSelect(name, label, options) {
-    const { data, errors } = this.state;
-    return (
-      <Select
-        name={name}
-        onChange={this.handleChange}
-        label={label}
-        value={data[name]}
-        options={options}
-        error={errors[name]}
-      />
-    );
-  }
-  renderInput(name, label, type = "text") {
-    const { data, errors } = this.state;
-    return (
-      <Input
-        type={type}
-        name={name}
-        onChange={this.handleChange}
-        label={label}
-        value={data[name]}
-        error={errors[name]}
-      />
-    );
-  }
   renderButton(label) {
     return (
       <button disabled={this.validate()} className="btn btn-primary">
         {label}
       </button>
+    );
+  }
+
+  renderSelect(name, label, options) {
+    const { data, errors } = this.state;
+
+    return (
+      <Select
+        name={name}
+        value={data[name]}
+        label={label}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+
+  renderInput(name, label, type = "text") {
+    const { data, errors } = this.state;
+
+    return (
+      <Input
+        type={type}
+        name={name}
+        value={data[name]}
+        label={label}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
     );
   }
 }

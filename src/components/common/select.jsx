@@ -1,7 +1,6 @@
-
 import React from "react";
 
-const Select = ({ name, label, errors,options, ...rest }) => {
+const Select = ({ name, label, error, options, ...rest }) => {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
@@ -13,7 +12,7 @@ const Select = ({ name, label, errors,options, ...rest }) => {
           </option>
         ))}
       </select>
-      {errors && <div className="alert alert-danger">{errors}</div>}
+      {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };
