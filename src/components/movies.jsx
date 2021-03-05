@@ -9,18 +9,6 @@ import { getGenres } from "../services/genreService";
 import SearchBox from "./common/searchBox";
 import _ from "lodash";
 import { toast } from "react-toastify";
-// import React, { Component } from "react";
-// import { deleteMovie, getMovies } from "../services/movieService";
-// import { toast } from "react-toastify";
-
-// import ListGroup from "./common/listGroup";
-// import MoviesTable from "./moviesTable";
-// import Pagination from "../components/common/pagination";
-// import { paginate } from "../../src/utils/paginate";
-// import { getGenres } from "../services/genreService";
-// import _ from "lodash";
-// import { Link } from "react-router-dom";
-// import SearchBox from "./common/searchBox";
 
 class Movies extends Component {
   state = {
@@ -100,6 +88,7 @@ class Movies extends Component {
     return { TotalCount: filtered.length, data: movies };
   };
   render() {
+    const { user } = this.props;
     const { length: count } = this.state.movies;
     const { currentPage, pageSize, sortColumn, searchQuery } = this.state;
     if (count === 0) return <p>There is no movies to show</p>;
@@ -116,12 +105,14 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <Link
-            to="/movies/New"
-            className="btn btn-primary"
-            style={{ marginBotton: 20 }}>
-            New Movie
-          </Link>
+          {user && (
+            <Link
+              to="/movies/New"
+              className="btn btn-primary"
+              style={{ marginBotton: 20 }}>
+              New Movie
+            </Link>
+          )}
           <p>you have {TotalCount} movies in the list</p>
 
           <SearchBox value={searchQuery} onChange={this.HandleSearch} />
