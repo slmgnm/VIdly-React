@@ -26,7 +26,7 @@ export function loginWithJwt(jwt) {
 export function getJwt() {
   return localStorage.getItem(tokenKey);
 }
-
+// eslint-disable-next-line
 export default {
   logout,
   login,

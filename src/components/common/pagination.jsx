@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
@@ -8,6 +9,7 @@ const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
   const pages = _.range(1, pagesCount + 1);
 
   return (
+    // eslint-disable-next-line
     <nav>
       <ul className="pagination">
         {pages.map((page) => (
